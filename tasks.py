@@ -12,15 +12,26 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
-from .models import (
-    Difficulty,
-    PolicySnippet,
-    Priority,
-    TaskCard,
-    Team,
-    TicketRecord,
-    TicketStatus,
-)
+try:
+    from .models import (
+        Difficulty,
+        PolicySnippet,
+        Priority,
+        TaskCard,
+        Team,
+        TicketRecord,
+        TicketStatus,
+    )
+except ImportError:
+    from models import (
+        Difficulty,
+        PolicySnippet,
+        Priority,
+        TaskCard,
+        Team,
+        TicketRecord,
+        TicketStatus,
+    )
 
 
 class CriterionKind(str, Enum):

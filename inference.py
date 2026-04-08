@@ -303,6 +303,9 @@ def main() -> None:
     except KeyboardInterrupt:
         print("Inference interrupted.", file=sys.stderr)
         raise SystemExit(130) from None
+    except Exception as exc:
+        print(f"Inference failed: {exc}", file=sys.stderr)
+        raise SystemExit(1) from None
 
 
 if __name__ == "__main__":

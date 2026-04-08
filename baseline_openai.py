@@ -15,9 +15,14 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from .models import ActionType, Priority, SupportOpsAction, Team, TicketStatus
-from .tasks import TASK_ORDER
-from .trainer_env import SupportOpsTrainerEnv
+try:
+    from .models import ActionType, Priority, SupportOpsAction, Team, TicketStatus
+    from .tasks import TASK_ORDER
+    from .trainer_env import SupportOpsTrainerEnv
+except ImportError:
+    from models import ActionType, Priority, SupportOpsAction, Team, TicketStatus
+    from tasks import TASK_ORDER
+    from trainer_env import SupportOpsTrainerEnv
 
 
 DEFAULT_MODEL = "gpt-4.1-mini"

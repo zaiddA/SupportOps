@@ -13,7 +13,10 @@ from typing import Any
 from openenv.core import EnvClient
 from openenv.core.client_types import StepResult
 
-from .models import SupportOpsAction, SupportOpsObservation, SupportOpsState
+try:
+    from .models import SupportOpsAction, SupportOpsObservation, SupportOpsState
+except ImportError:
+    from models import SupportOpsAction, SupportOpsObservation, SupportOpsState
 
 
 class SupportOpsEnv(EnvClient[SupportOpsAction, SupportOpsObservation, SupportOpsState]):

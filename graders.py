@@ -12,8 +12,12 @@ import re
 
 from pydantic import BaseModel, Field
 
-from .models import CriterionScore, TicketRecord
-from .tasks import CriterionKind, TaskCriterion, TaskDefinition, TextSource
+try:
+    from .models import CriterionScore, TicketRecord
+    from .tasks import CriterionKind, TaskCriterion, TaskDefinition, TextSource
+except ImportError:
+    from models import CriterionScore, TicketRecord
+    from tasks import CriterionKind, TaskCriterion, TaskDefinition, TextSource
 
 
 class TaskGrade(BaseModel):

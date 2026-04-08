@@ -8,7 +8,10 @@
 
 from __future__ import annotations
 
-from .models import SupportOpsAction, SupportOpsObservation, SupportOpsState
+try:
+    from .models import SupportOpsAction, SupportOpsObservation, SupportOpsState
+except ImportError:
+    from models import SupportOpsAction, SupportOpsObservation, SupportOpsState
 
 try:
     from .server.support_ops_env_environment import SupportOpsEnvironment
