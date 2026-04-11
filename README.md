@@ -345,13 +345,12 @@ These scores are deterministic and covered by the included tests:
 | `medium_refund_recovery` | `0.999` |
 | `hard_export_incident` | `0.999` |
 
-### Submission inference script
+### Inference runner
 
-The repository includes `inference.py`, which follows the common submission format used by OpenEnv-style evaluations:
+The repository includes `inference.py` for running the packaged tasks against a hosted endpoint or a local Docker image.
 
 - reads `API_BASE_URL`, `MODEL_NAME`, and `HF_TOKEN`
 - optionally reads `LOCAL_IMAGE_NAME` when using `from_docker_image()`
-- uses the OpenAI client for all LLM calls
 - writes structured stdout logs in `START`, `STEP`, and `END` format
 
 Run it with the hosted Space:
@@ -375,9 +374,9 @@ $env:LOCAL_IMAGE_NAME="support-ops-env:local"
 uv run inference --output inference_results.json
 ```
 
-### OpenAI API baseline helper
+### Local baseline helper
 
-The repository also keeps `baseline_openai.py`, which uses `OPENAI_API_KEY` and writes a fuller JSON trajectory summary for local experiments.
+The repository also keeps `baseline_openai.py`, which writes a fuller JSON trajectory summary for local experiments.
 
 Run it with:
 
@@ -399,8 +398,6 @@ Output is a reproducible JSON summary over all three bundled tasks, including:
 - total reward
 - step count
 - full action trajectory
-
-OpenAI scores are not embedded here because `OPENAI_API_KEY` was not configured during implementation. Once a key is available, run the baseline and add the resulting scores to this section.
 
 ## Verification status
 
