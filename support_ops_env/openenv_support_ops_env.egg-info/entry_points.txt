@@ -1,4 +1,0 @@
-[console_scripts]
-baseline = support_ops_env.baseline_openai:main
-server = support_ops_env.server.app:main
-smoke = support_ops_env.smoke_test:main
