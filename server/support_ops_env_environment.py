@@ -14,7 +14,7 @@ from uuid import uuid4
 from openenv.core.env_server.interfaces import Environment
 
 try:
-    from ..graders import TaskGrade, grade_task
+    from ..graders import TASK_SCORE_EPSILON, TaskGrade, grade_task
     from ..models import (
         ActionRecord,
         ActionType,
@@ -29,7 +29,7 @@ try:
     )
     from ..tasks import EASY_TASK_ID, TASK_ORDER, TaskDefinition, build_task_catalog
 except ImportError:
-    from graders import TaskGrade, grade_task
+    from graders import TASK_SCORE_EPSILON, TaskGrade, grade_task
     from models import (
         ActionRecord,
         ActionType,
@@ -57,7 +57,7 @@ class SupportOpsEnvironment(Environment):
         self._current_task: TaskDefinition | None = None
         self._tickets: dict[str, TicketRecord] = {}
         self._initial_tickets: dict[str, TicketRecord] = {}
-        self._current_grade = TaskGrade(score=0.0, criteria=[])
+        self._current_grade = TaskGrade(score=TASK_SCORE_EPSILON, criteria=[])
         self._action_signatures: dict[str, int] = {}
         self._action_history: list[ActionRecord] = []
         self._last_action_result = "Environment initialized."

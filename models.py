@@ -179,7 +179,7 @@ class SupportOpsState(State):
 
     task: TaskCard = Field(..., description="Current task definition exposed as a task card")
     tickets: list[TicketRecord] = Field(..., description="Complete ticket workspace state")
-    current_score: float = Field(..., ge=0.0, le=1.0, description="Current deterministic task score")
+    current_score: float = Field(..., gt=0.0, lt=1.0, description="Current deterministic task score")
     criteria: list[CriterionScore] = Field(..., description="Criterion-by-criterion grading details")
     finished: bool = Field(..., description="Whether the episode has finished")
     last_action_result: str = Field(..., description="Most recent action outcome message")

@@ -29,7 +29,7 @@ def test_easy_task_can_reach_perfect_score():
     )
     assert reward > 0
     assert not done
-    assert round(info["score"], 4) == 1.0
+    assert 0.99 < round(info["score"], 4) < 1.0
     assert observation.last_action_result.startswith("Sent customer reply")
 
 
@@ -87,7 +87,7 @@ def test_medium_task_can_reach_perfect_score():
     for action in actions:
         _, _, done, _ = env.step(action)
     assert done
-    assert round(env.state().current_score, 4) == 1.0
+    assert 0.99 < round(env.state().current_score, 4) < 1.0
 
 
 def test_hard_task_scripted_rollout_scores_perfectly():
@@ -146,7 +146,7 @@ def test_hard_task_scripted_rollout_scores_perfectly():
         _, _, done, _ = env.step(action)
     state = env.state()
     assert done
-    assert round(state.current_score, 4) == 1.0
+    assert 0.99 < round(state.current_score, 4) < 1.0
     untouched = next(ticket for ticket in state.tickets if ticket.ticket_id == "T-3004")
     assert untouched.tags == ["billing"]
     assert untouched.replies == []

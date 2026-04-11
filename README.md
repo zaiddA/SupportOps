@@ -159,7 +159,7 @@ The agent must:
 
 ## Graders
 
-Each task uses a deterministic weighted grader with scores in `[0.0, 1.0]`.
+Each task uses a deterministic weighted grader with task scores kept strictly inside `(0.0, 1.0)`.
 
 Criterion types include:
 
@@ -341,9 +341,9 @@ These scores are deterministic and covered by the included tests:
 
 | Task | Reference score |
 | --- | --- |
-| `easy_access_recovery` | `1.00` |
-| `medium_refund_recovery` | `1.00` |
-| `hard_export_incident` | `1.00` |
+| `easy_access_recovery` | `0.999` |
+| `medium_refund_recovery` | `0.999` |
+| `hard_export_incident` | `0.999` |
 
 ### Submission inference script
 

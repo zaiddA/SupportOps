@@ -23,8 +23,11 @@ except ImportError:
 class TaskGrade(BaseModel):
     """Current score and criterion breakdown for a task."""
 
-    score: float = Field(..., ge=0.0, le=1.0, description="Current task score")
+    score: float = Field(..., gt=0.0, lt=1.0, description="Current task score")
     criteria: list[CriterionScore] = Field(default_factory=list, description="Criterion breakdown")
+
+
+TASK_SCORE_EPSILON = 0.001
 
 
 def grade_task(
@@ -44,8 +47,8 @@ def grade_task(
         weight_sum += score.weight
         criteria_scores.append(score)
 
-    overall = 0.0 if weight_sum == 0.0 else weighted_total / weight_sum
-    return TaskGrade(score=round(_clamp(overall), 4), criteria=criteria_scores)
+    overall = 0.5 if weight_sum == 0.0 else weighted_total / weight_sum
+    return TaskGrade(score=round(_clamp_task_score(overall), 4), criteria=criteria_scores)
 
 
 def _score_criterion(
@@ -212,3 +215,7 @@ def _normalize_text(value: str) -> str:
 
 def _clamp(value: float) -> float:
     return max(0.0, min(1.0, value))
+
+
+def _clamp_task_score(value: float) -> float:
+    return max(TASK_SCORE_EPSILON, min(1.0 - TASK_SCORE_EPSILON, value))
