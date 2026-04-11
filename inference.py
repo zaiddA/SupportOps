@@ -117,7 +117,7 @@ async def create_env_client() -> SupportOpsEnv:
     if LOCAL_IMAGE_NAME:
         return await SupportOpsEnv.from_docker_image(LOCAL_IMAGE_NAME)
     env = SupportOpsEnv(base_url=ENV_BASE_URL)
-    env.connect()
+    await env.connect()
     return env
 
 
@@ -190,10 +190,10 @@ def action_summary(action: SupportOpsAction) -> str:
     return json.dumps(compact, separators=(",", ":"), ensure_ascii=True)
 
 
-def run_task(env: SupportOpsEnv, client: OpenAI, task_id: str) -> dict[str, Any]:
+async def run_task(env: SupportOpsEnv, client: OpenAI, task_id: str) -> dict[str, Any]:
     log_start(task=task_id, env=BENCHMARK_NAME, model=MODEL_NAME)
 
-    reset_result = env.reset(task_id=task_id)
+    reset_result = await env.reset(task_id=task_id)
     observation = reset_result.observation
     rewards: list[float] = []
     trajectory: list[dict[str, Any]] = []
@@ -211,7 +211,7 @@ def run_task(env: SupportOpsEnv, client: OpenAI, task_id: str) -> dict[str, Any]
             action = finish_action()
 
         action_label = action_summary(action)
-        step_result = env.step(action)
+        step_result = await env.step(action)
         observation = step_result.observation
         reward = float(step_result.reward or 0.0)
         done = bool(step_result.done)
@@ -235,7 +235,7 @@ def run_task(env: SupportOpsEnv, client: OpenAI, task_id: str) -> dict[str, Any]
             error=combined_error,
         )
 
-    final_state = env.state()
+    final_state = await env.state()
     final_score = round(final_state.current_score, 4)
     success = final_score >= 0.95
     log_end(success=success, steps=step_index, score=final_score, rewards=rewards)
@@ -261,9 +261,9 @@ async def run_inference(task_ids: list[str], output_path: Path | None) -> int:
 
     try:
         for task_id in task_ids:
-            summary["tasks"].append(run_task(env=env, client=client, task_id=task_id))
+            summary["tasks"].append(await run_task(env=env, client=client, task_id=task_id))
     finally:
-        env.close()
+        await env.close()
 
     if summary["tasks"]:
         summary["average_score"] = round(
